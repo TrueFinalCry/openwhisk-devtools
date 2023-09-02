@@ -36,7 +36,11 @@ endif
 DOCKER_HOST_IP ?= $(shell echo ${DOCKER_HOST} | grep -o "[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}" || echo ${LOCAL_IP})
 DOCKER_REGISTRY ?= ""
 DOCKER_IMAGE_PREFIX ?= openwhisk
+MY_DOCKER_IMAGE_PREFIX ?= localhost:5000
+#MY_DOCKER_IMAGE_PREFIX ?= openwhisk
 DOCKER_IMAGE_TAG ?= nightly
+MY_DOCKER_IMAGE_TAG ?= v2
+#MY_DOCKER_IMAGE_TAG ?= nightly
 OPENWHISK_VERSION ?= master
 OPENWHISK_PROJECT_HOME ?= $(CURDIR)/openwhisk-src
 OPENWHISK_CATALOG_HOME ?= $(CURDIR)/openwhisk-catalog
@@ -132,7 +136,7 @@ docker-build:
 
 .PHONY: docker-pull-lean
 docker-pull-lean:
-	docker pull $(DOCKER_IMAGE_PREFIX)/controller:${DOCKER_IMAGE_TAG}
+	docker pull $(MY_DOCKER_IMAGE_PREFIX)/controller:${MY_DOCKER_IMAGE_TAG}
 	docker pull $(DOCKER_IMAGE_PREFIX)/nodejs6action:${DOCKER_IMAGE_TAG}
 	docker pull $(DOCKER_IMAGE_PREFIX)/dockerskeleton:${DOCKER_IMAGE_TAG}
 
@@ -144,7 +148,7 @@ docker-pull:	docker-pull-lean
 .PHONY: docker-pull-full
 docker-pull-full:
 	echo "pulling the docker images full list ... "
-	docker pull $(DOCKER_IMAGE_PREFIX)/controller:${DOCKER_IMAGE_TAG}
+	docker pull $(MY_DOCKER_IMAGE_PREFIX)/controller:${MY_DOCKER_IMAGE_TAG}
 	docker pull $(DOCKER_IMAGE_PREFIX)/invoker:${DOCKER_IMAGE_TAG}
 	docker pull $(DOCKER_IMAGE_PREFIX)/action-nodejs-v10:${DOCKER_IMAGE_TAG}
 	docker pull $(DOCKER_IMAGE_PREFIX)/action-nodejs-v12:${DOCKER_IMAGE_TAG}
